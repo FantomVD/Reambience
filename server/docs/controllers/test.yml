@@ -1,0 +1,8 @@
+paths:
+  /ping:
+    get:
+      tags: ['test']
+      description: PONG!!!!
+      produces: [application/json]
+      responses: [200]
+

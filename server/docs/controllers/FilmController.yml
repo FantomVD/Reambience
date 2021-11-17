@@ -1,0 +1,141 @@
+paths:
+  /api/v1/films:
+    get:
+      tags: ['film']
+      description: Get all films
+      produces: [application/json]
+      responses: [200]
+    post:
+      tags: [ 'film' ]
+      security: [bearerAuth: []]
+      description: Create new film
+      parameters:
+        - name: name
+          in: formData
+          description: Film's name
+          type: string
+          required: true
+        - name: description
+          in: formData
+          description: Film's description
+          type: string
+          required: true
+        - name: publish_year
+          in: formData
+          description: Film's publish year
+          type: number
+          required: true
+        - name: rating
+          in: formData
+          description: Film's rating
+          type: decimal
+        - name: age_restriction
+          in: formData
+          description: Age restriction for this film
+          type: number
+        - name: duration
+          in: formData
+          description: Film's duration
+          type: string
+          default: '1:30'
+          required: true
+        - name: producer
+          in: formData
+          description: Film's producer
+          type: string
+        - name: small_image
+          in: formData
+          description: Film's small image
+          type: file
+        - name: large_image
+          in: formData
+          description: Film's big image
+          type: file
+      produces: [ application/json ]
+      responses: [ 200 ]
+  /api/v1/films/date:
+    get:
+      tags: [ 'film' ]
+      security: [ bearerAuth: [ ] ]
+      description: Get all films by date
+      parameters:
+        - name: date
+          in: query
+          description: films by date
+          type: date
+          default: '12.10.2021'
+      produces: [ application/json]
+      responses: [200]
+  /api/v1/films/{id}:
+    get:
+      tags: [ 'film' ]
+      description: Get by id
+      parameters:
+        - in: path
+          name: id
+          description: Film id
+          type: integer
+          required: true
+      produces: [ application/json ]
+      responses: [ 200 ]
+    delete:
+      security: [ bearerAuth: [ ] ]
+      tags: [ 'film' ]
+      description: Delete film by id
+      parameters:
+        - in: path
+          name: id
+          description: Film id
+          type: integer
+          required: true
+      produces: [ application/json ]
+      responses: [ 200 ]
+    put:
+      tags: [ 'film' ]
+      security: [ bearerAuth: [ ] ]
+      description: Update new film
+      parameters:
+        - name: id
+          in: path
+          description: Film's id
+          type: number
+          required: true
+        - name: name
+          in: formData
+          description: Film's name
+          type: string
+        - name: description
+          in: formData
+          description: Film's description
+          type: string
+        - name: publish_year
+          in: formData
+          description: Film's publish year
+          type: number
+        - name: rating
+          in: formData
+          description: Film's rating
+          type: decimal
+        - name: age_restriction
+          in: formData
+          description: Age restriction for this film
+          type: number
+        - name: duration
+          in: formData
+          description: Film's duration
+          type: string
+          default: '1:30'
+        - name: producer
+          in: formData
+          description: Film's producer
+          type: string
+        - name: small_image
+          in: formData
+          description: Film's small image
+          type: file
+        - name: large_image
+          in: formData
+          description: Film's big image
+          type: file
+      produces: [ application/json ]
+      responses: [ 200 ]

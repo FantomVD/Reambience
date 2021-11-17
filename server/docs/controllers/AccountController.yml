@@ -1,0 +1,47 @@
+paths:
+  /api/v1/account/auth/register:
+    post:
+      tags: ['account']
+      description: Register account
+      parameters:
+        - name: username
+          in: formData
+          description: User's name
+          type: string
+          default: user
+          required: true
+        - name: email
+          in: formData
+          description: User's email
+          default: user@user.com
+          required: true
+        - name: password
+          in: formData
+          description: User's password
+          default: 123123az
+          required: true
+      produces: [application/json]
+      responses: [200]
+  /api/v1/account/auth/login:
+    post:
+      tags: [ 'account' ]
+      description: Login to the account
+      parameters:
+        - name: email
+          in: formData
+          description: User's email
+          default: user@user.com
+          required: true
+        - name: password
+          in: formData
+          description: User's password
+          default: 123123az
+          required: true
+      produces: [ application/json ]
+      responses: [ 200 ]
+  /api/v1/account/me:
+    get:
+      tags: [account]
+      security: [bearerAuth: []]
+      produces: [application/json]
+      responses: [200]

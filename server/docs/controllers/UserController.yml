@@ -1,0 +1,22 @@
+paths:
+  /api/v1/account:
+    put:
+      tags: [ 'account' ]
+      security: [ bearerAuth: [ ] ]
+      description: Update user info
+      parameters:
+        - name: username
+          in: formData
+          description: User's name
+          type: string
+          default: user
+        - name: avatar
+          in: formData
+          description: User's avatar
+          type: file
+        - name: password
+          in: formData
+          description: User's password
+          default: 123123az
+      produces: [ application/json ]
+      responses: [ 200 ]
