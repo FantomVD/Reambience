@@ -12,6 +12,7 @@
 */
 const providers = [
   '@adonisjs/framework/providers/AppProvider',
+  'adonis-sentry/providers/Sentry',
   '@adonisjs/framework/providers/ViewProvider',
   '@adonisjs/lucid/providers/LucidProvider',
   '@adonisjs/bodyparser/providers/BodyParserProvider',

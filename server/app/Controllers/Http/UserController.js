@@ -3,7 +3,7 @@
 const File = use('App/Classes/File')
 const UserService = use('App/Services/UserService')
 
-class AuthController {
+class UserController {
   async updateUser({ request, auth, response }) {
     const userData = request.all()
     const { avatar } = request.files()
@@ -17,4 +17,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController
+module.exports = UserController
