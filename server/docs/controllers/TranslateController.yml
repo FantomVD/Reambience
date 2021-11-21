@@ -1,0 +1,22 @@
+paths:
+  /api/v1/translate:
+    get:
+      tags: [ 'translate' ]
+      description: Translate
+      parameters:
+        - in: query
+          name: text
+          type: string
+          description: Message to translate
+          required: true
+        - in: query
+          name: from
+          type: string
+          description: Source language
+          default: 'auto'
+        - in: query
+          name: to
+          type: string
+          description: Target language
+      produces: [ application/json ]
+      responses: [200]

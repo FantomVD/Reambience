@@ -2,7 +2,7 @@ version: '2'
 
 services:
   postgres:
-    container_name: moonlight_postgres
+    container_name: reambience_postgres
     image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-root}
