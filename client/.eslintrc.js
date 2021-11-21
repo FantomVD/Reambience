@@ -23,7 +23,6 @@ module.exports = {
 	rules: {
 		'no-unused-vars': 'warn',
 		'react/prop-types': 0,
-		'react/display-name': 0,
-		'no-mixed-spaces-and-tabs': 0
+		'react/display-name': 0
 	}
 };
