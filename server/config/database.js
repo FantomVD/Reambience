@@ -7,8 +7,8 @@ const Env = use('Env')
 const Helpers = use('Helpers')
 
 const Url = require('url-parse')
-const CLEARDB_DATABASE_URL = new Url(Env.get('CLEARDB_DATABASE_URL')||'mysql://b6b09e619335fd:8868571a@eu-cdbr-west-01.cleardb.com/heroku_dcac1f708acf763?reconnect=true')
-
+const DATABASE_URL = new URL(Env.get('DATABASE_URL') || 'postgres://bbgrdcclswdsse:630987605036af0f94087b41e5aafc29253fd290ea327052021d175397af40a3@ec2-3-248-87-6.eu-west-1.compute.amazonaws.com:5432/da7fg2u0u9eq52')
+console.log(DATABASE_URL)
 module.exports = {
   /*
   |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ module.exports = {
   | interacting with SQL databases.
   |
   */
-  connection:'mysql',
+  connection:'pg',
 
   /*
   |--------------------------------------------------------------------------
@@ -50,16 +50,16 @@ module.exports = {
   | npm i --save mysql
   |
   */
-  mysql: {
-    client: 'mysql',
-    connection: {
-      host: Env.get('DB_HOST', CLEARDB_DATABASE_URL.host),
-      port: Env.get('DB_PORT', ''),
-      user: Env.get('DB_USER', CLEARDB_DATABASE_URL.username),
-      password: Env.get('DB_PASSWORD', CLEARDB_DATABASE_URL.password),
-      database: Env.get('DB_DATABASE', CLEARDB_DATABASE_URL.pathname.substr(1))
-    }
-  },
+  // mysql: {
+  //   client: 'mysql',
+  //   connection: {
+  //     host: Env.get('DB_HOST', CLEARDB_DATABASE_URL.host),
+  //     port: Env.get('DB_PORT', ''),
+  //     user: Env.get('DB_USER', CLEARDB_DATABASE_URL.username),
+  //     password: Env.get('DB_PASSWORD', CLEARDB_DATABASE_URL.password),
+  //     database: Env.get('DB_DATABASE', CLEARDB_DATABASE_URL.pathname.substr(1))
+  //   }
+  // },
 
   /*
   |--------------------------------------------------------------------------
@@ -74,11 +74,11 @@ module.exports = {
   pg: {
     client: 'pg',
     connection: {
-      host: Env.get('DB_HOST', '127.0.0.1'),
-      port: Env.get('DB_PORT', '5432'),
-      user: Env.get('DB_USER', 'root'),
-      password: Env.get('DB_PASSWORD', 'root'),
-      database: Env.get('DB_DATABASE', 'postgres')
+      host: Env.get('DB_HOST', DATABASE_URL.host),
+      port: Env.get('DB_PORT', DATABASE_URL.port),
+      user: Env.get('DB_USER', DATABASE_URL.username),
+      password: Env.get('DB_PASSWORD', DATABASE_URL.password),
+      database: Env.get('DB_DATABASE', DATABASE_URL.pathname.substr(1))
     }
   }
 }
