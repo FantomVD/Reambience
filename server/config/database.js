@@ -8,7 +8,6 @@ const Helpers = use('Helpers')
 
 const Url = require('url-parse')
 const DATABASE_URL = new URL(Env.get('DATABASE_URL') || 'postgres://bbgrdcclswdsse:630987605036af0f94087b41e5aafc29253fd290ea327052021d175397af40a3@ec2-3-248-87-6.eu-west-1.compute.amazonaws.com:5432/da7fg2u0u9eq52')
-console.log(DATABASE_URL)
 module.exports = {
   /*
   |--------------------------------------------------------------------------
@@ -81,12 +80,12 @@ module.exports = {
       database: Env.get('DB_DATABASE', DATABASE_URL.pathname.substr(1)),
       dialectOptions: {
         ssl: {
-          require: true,
+          require: Env.get('SSL_REQUIRE', false),
           rejectUnauthorized: false,
         },
         keepAlive: true,
       },
-      ssl: true,
+      ssl: Env.get('SSL_REQUIRE', false),
     },
   }
 }
