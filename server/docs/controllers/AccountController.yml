@@ -10,11 +10,6 @@ paths:
           type: string
           default: user
           required: true
-        - name: email
-          in: formData
-          description: User's email
-          default: user@user.com
-          required: true
         - name: password
           in: formData
           description: User's password
@@ -27,10 +22,10 @@ paths:
       tags: [ 'account' ]
       description: Login to the account
       parameters:
-        - name: email
+        - name: user
           in: formData
-          description: User's email
-          default: user@user.com
+          description: Username
+          default: user
           required: true
         - name: password
           in: formData

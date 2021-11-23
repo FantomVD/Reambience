@@ -4,11 +4,10 @@ const User = use('App/Models/User')
 
 class AuthController {
   async register({request, auth, response}) {
-    const {username, email, password} = request.all()
+    const {username, password} = request.all()
 
     const user = new User()
     user.username = username
-    user.email = email
     user.password = password
 
     try{
