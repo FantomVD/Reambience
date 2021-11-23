@@ -2,21 +2,19 @@
 
 const Model = require('./BaseModel')
 
-class Ticket extends Model {
+class Book extends Model {
   static get columns(){
     return [
       'id',
-      'user_id',
-      'session_id',
-      'place'
+    'title',
+    'author',
+    'forImage',
+    'path',
     ]
   }
   static get readonly(){
     return [
       'id',
-      'user_id',
-      'session_id',
-      'place'
     ]
   }
 
@@ -25,4 +23,4 @@ class Ticket extends Model {
   }
 }
 
-module.exports = Ticket
+module.exports = Book

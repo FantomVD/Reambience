@@ -1,0 +1,47 @@
+paths:
+  /api/v1/books:
+    post:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      description: Upload book
+      parameters:
+        - name: book
+          description: book
+          in: formData
+          type: file
+          required: true
+        - name: author
+          in: formData
+        - name: title
+          in: formData
+      produces: [ application/json ]
+      responses: [ 200 ]
+  /api/v1/books/favourites:
+    get:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      description: Get all books
+      produces: [ application/json ]
+      responses: [ 200 ]
+  /api/v1/books/{id}:
+    get:
+      tags: [ 'book' ]
+      description: Get book by id
+      parameters:
+        - name: id
+          description: Book's id
+          in: path
+          type: integer
+      produces: [ application/json ]
+      responses: [ 200 ]
+    delete:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      description: Delete book
+      parameters:
+        - name: id
+          description: Book's id
+          in: path
+          type: integer
+      produces: [ application/json ]
+      responses: [ 200 ]

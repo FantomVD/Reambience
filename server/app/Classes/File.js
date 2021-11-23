@@ -46,7 +46,7 @@ class File {
    */
   static async saveToLocalDisk(file, dest = '') {
     let { ext } = (await FileType.fromFile(file.tmpPath)) || {}
-    const filePathName = trimStart(`${dest}/${uuid.v4()}.${ext}`, '/')
+    const filePathName = trimStart(`${dest}/${uuid.v4()}.${file.extname}`, '/')
     await Drive.disk('local').put(filePathName, await Drive.getStream(file.tmpPath))
 
     return filePathName

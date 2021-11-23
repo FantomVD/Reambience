@@ -22,7 +22,7 @@ paths:
       tags: [ 'account' ]
       description: Login to the account
       parameters:
-        - name: user
+        - name: username
           in: formData
           description: Username
           default: user

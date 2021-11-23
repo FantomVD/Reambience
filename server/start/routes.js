@@ -20,12 +20,12 @@ Route.on('/').render('welcome')
 Route.get('/ping', ({ response }) => response.res('pong!'))
 
 Route.get('/api/v1/translate', 'TranslateController.translate').middleware(['valid:Translate'])
-// Route.group(()=>{
-//   Route.post('/', 'BookController.saveFavouriteBook').middleware(['auth'])
-//   Route.get('/:id', 'BookController.getBookById').middleware()
-//   Route.delete('/:id', 'BookController.deleteBookById').middleware(['auth','valid:Id'])
-//   Route.get('/favourites', 'BookController.getFavourites').middleware
-// }).prefix('/api/v1/books')
+Route.group(()=>{
+  Route.post('/', 'BookController.saveFavouriteBook').middleware(['auth', 'valid:CreateBook'])
+  Route.get('/favourites', 'BookController.getFavouriteBooks').middleware(['auth'])
+  Route.delete('/:id', 'BookController.deleteBookById').middleware(['auth','valid:Id'])
+  Route.get('/:id', 'BookController.getBookById').middleware(['valid:Id'])
+}).prefix('/api/v1/books')
 
 Route.group(() => {
   Route.post('/auth/register', 'AuthController.register')

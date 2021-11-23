@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Models/User')
+const Hash = use('Hash')
 
 class AuthController {
   async register({request, auth, response}) {
@@ -20,11 +21,21 @@ class AuthController {
     return response.json({"user": user, "access_token": accessToken})
   }
 
+  // async login({request, auth, response}) {
+  //   const {username, password} = request.all()
+  //   const user = await User.query().where({username}).first()
+  //   if (!(await Hash.verify(user.password, password))) {
+  //     return response.badRequest('Invalid credentials')
+  //   }
+  //     let accessToken = await auth.generate(user)
+  //     return response.json({"user":user, "access_token": accessToken})
+  // }
+
   async login({request, auth, response}) {
-    const {email, password} = request.all()
+    const {username, password} = request.all()
     try {
-      if (await auth.attempt(email, password)) {
-        let user = await User.findBy('email', email)
+      if (await auth.attempt(username, password)) {
+        let user = await User.findBy('username', username)
         let accessToken = await auth.generate(user)
         return response.json({"user":user, "access_token": accessToken})
       }
