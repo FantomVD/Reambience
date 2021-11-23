@@ -35,38 +35,39 @@
     "adonis-sentry": "^2.1.4",
     "adonis-swagger": "git+https://github.com/ProductCrafters/adonis-swagger.git",
     "alpinejs": "^3.5.1",
+    "autoprefixer": "^10.4.0",
     "axios": "^0.24.0",
     "bluebird": "^3.7.2",
     "cld": "^2.7.1",
     "date-fns": "^2.25.0",
     "epub": "^1.2.1",
+    "file-type": "^16.5.3",
     "jquery": "^3.6.0",
+    "laravel-mix": "^6.0.39",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "mysql": "^2.18.1",
     "node-ebook-converter": "^1.0.11",
     "pg": "^8.7.1",
+    "postcss": "^8.3.11",
     "postcss-import": "^14.0.2",
     "translate": "^1.4.1",
     "translate-google": "^1.5.0",
     "url-parse": "^1.5.3",
+    "uuid": "^8.3.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.0",
     "debug": "^4.3.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "file-type": "^16.5.3",
-    "laravel-mix": "^6.0.39",
-    "postcss": "^8.3.11",
     "prettier": "^2.4.1",
-    "tailwindcss": "^2.2.19",
-    "uuid": "^8.3.2"
+    "tailwindcss": "^2.2.19"
   },
   "autoload": {
     "App": "./app"
   },
   "engines": {
-    "node": "14.17.6"
+    "node": "12.22.1"
   }
 }
