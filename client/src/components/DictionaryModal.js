@@ -8,18 +8,18 @@ import Icon from './Icon';
 import Spinner from './Spinner';
 import showToast from './Toast';
 import { primaryColor, elevatedBG, languages } from '../constants';
-import { translateApiUrl } from '../constants/private';
 
 const { height, width } = Dimensions.get('window');
 
 function DictionaryModal(props) {
 	const [translation, setTranslation] = useState('');
 	const [langIndex, setLangIndex] = useState({ src: 0, trg: 0 });
+	// translateApiUrl(props.sLang, props.tLang, props.selected)
 
 	useEffect(() => {
 		axios
-			.get(translateApiUrl(props.sLang, props.tLang, props.selected))
-			.then((res) => setTranslation(res.data[0][0][0]))
+			.get(`https://reambience.herokuapp.com/api/v1/translate?text=${props.selected}&to=uk`)
+			.then((res) => setTranslation(res.data.data.toString()))
 			.catch(() => showToast('An error occurred. Please try again later.'));
 		let srcIndex = languages.findIndex((lang) => lang.value === props.sLang);
 		let trgIndex = languages.findIndex((lang) => lang.value === props.tLang);

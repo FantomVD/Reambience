@@ -23,7 +23,7 @@ class BookService{
 
 
     const epubObj = await BookService.parseEpub(absolutePath)
-
+    console.log(`Saved to: ${absolutePath}`)
     const book = await Book.createItem({ author: epubObj.metadata.creator, title: epubObj.metadata.title, path: relativePath })
     await BookService.createFavouriteBook(book.id, user_id)
     return book

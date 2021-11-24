@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
+import ReaderProvider from './contexts/ReaderProvider'
 import Root from './Root';
 
 export default function App() {
@@ -14,12 +15,14 @@ export default function App() {
 	}, []);
 
 	return (
-		<Provider store={store}>
-			<PersistGate persistor={persistor}>
-				<NavigationContainer>
-					<Root />
-				</NavigationContainer>
-			</PersistGate>
-		</Provider>
+		<ReaderProvider>
+			<Provider store={store}>
+				<PersistGate persistor={persistor}>
+					<NavigationContainer>
+						<Root />
+					</NavigationContainer>
+				</PersistGate>
+			</Provider>
+		</ReaderProvider>
 	);
 }

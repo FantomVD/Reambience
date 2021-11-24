@@ -1,10 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { connect } from 'react-redux';
 import Home from '../screens/Home';
 import EpubReader from '../screens/EpubReader';
 import PdfReader from '../screens/PdfReader';
 import Help from '../screens/Help';
+import SignInScreen from "../screens/SignInScreen";
+import SignUpScreen from "../screens/SignUpScreen";
+import {useStore} from "../contexts/hooks";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +18,10 @@ const screenOptions = {
 };
 
 function Navigator(props) {
+	const {getCurrentUser} = useStore()
+
+
+
 	const readerTitle = ({ route }) => ({
 		title: route.params.title,
 		headerTitleStyle: {
@@ -34,7 +41,9 @@ function Navigator(props) {
 
 	return (
 		<Stack.Navigator screenOptions={screenOptions}>
-			<Stack.Screen name="home" component={Home} options={{ headerTitle: 'My Library' }} />
+			<Stack.Screen name="signInScreen" component={SignInScreen} options={{ headerShown: false }} />
+			<Stack.Screen name="signUpScreen" component={SignUpScreen} options={{ headerShown: false }} />
+			<Stack.Screen name="home" component={Home} options={{ headerTitle: `Бібліотека  ${getCurrentUser()?.username}` }} />
 			<Stack.Screen name="epub-reader" component={EpubReader} options={readerTitle} />
 			<Stack.Screen name="pdf-reader" component={PdfReader} options={readerTitle} />
 			<Stack.Screen name="help" component={Help} options={{ headerTitle: 'How to use?' }} />
