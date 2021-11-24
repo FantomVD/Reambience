@@ -8,6 +8,7 @@ import Help from '../screens/Help';
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import {useStore} from "../contexts/hooks";
+import {AsyncStorage} from "react-native";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,13 @@ const screenOptions = {
 
 function Navigator(props) {
 	const {getCurrentUser} = useStore()
+
+	useEffect(async () => {
+		if(await AsyncStorage.getItem('currentUser')){
+			props.navigator.navigate('home')
+		}
+	}, []);
+
 
 
 
