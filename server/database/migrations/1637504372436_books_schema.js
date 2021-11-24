@@ -19,7 +19,9 @@ class BooksSchema extends Schema {
     })
 
     this.create('quotes', (table)=>{
+      table.increments()
       table.integer('user_id').references('id').inTable('users').onDelete('cascade')
+      table.integer('book_id').references('id').inTable('books').onDelete('cascade')
       table.string('quote', 1024)
     })
   }
