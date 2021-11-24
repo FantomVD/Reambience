@@ -23,6 +23,9 @@ Route.get('/api/v1/translate', 'TranslateController.translate').middleware(['val
 Route.group(()=>{
   Route.post('/', 'BookController.saveFavouriteBook').middleware(['auth', 'valid:CreateBook'])
   Route.get('/favourites', 'BookController.getFavouriteBooks').middleware(['auth'])
+  Route.post('/quotes', 'QuoteController.createQuote').middleware(['auth', 'valid:CreateQuote'])
+  Route.get('/quotes', 'QuoteController.getQuotesByUserId').middleware(['auth'])
+  Route.delete('/quotes/:id', 'QuoteController.deleteByQuoteId').middleware(['auth', 'valid:Id'])
   Route.delete('/:id', 'BookController.deleteBookById').middleware(['auth','valid:Id'])
   Route.get('/:id', 'BookController.getBookById').middleware(['valid:Id'])
 }).prefix('/api/v1/books')

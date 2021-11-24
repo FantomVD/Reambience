@@ -1,0 +1,53 @@
+paths:
+  /api/v1/books/quotes:
+    post:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      description: Upload book
+      parameters:
+        - name: book_id
+          in: formData
+          type: integer
+          required: true
+        - name: quote
+          in: formData
+          required: true
+      produces: [ application/json ]
+      responses: [ 200 ]
+    get:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      produces: [ application/json ]
+      responses: [ 200 ]
+  /api/v1/books/quotes/{id}:
+    delete:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      parameters:
+        - name: id
+          in: path
+          description: Quote id
+      produces: [ application/json ]
+      responses: [ 200 ]
+  /api/v1/books/{id}:
+    get:
+      tags: [ 'book' ]
+      description: Get book by id
+      parameters:
+        - name: id
+          description: Book's id
+          in: path
+          type: integer
+      produces: [ application/json ]
+      responses: [ 200 ]
+    delete:
+      tags: [ 'book' ]
+      security: [ bearerAuth: [ ] ]
+      description: Delete book
+      parameters:
+        - name: id
+          description: Book's id
+          in: path
+          type: integer
+      produces: [ application/json ]
+      responses: [ 200 ]
