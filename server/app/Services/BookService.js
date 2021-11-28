@@ -14,12 +14,13 @@ const allowedExtname = ['fb2', 'pdf']
 class BookService{
   static async saveBook(filePath, extname, user_id) {
     let relativePath = filePath.replace(`${Env.get('STATIC_PATH')}/`, '')
-    let absolutePath = `${Env.get('STATIC_PATH')}/${relativePath}`
-
+    let absolutePath = filePath
+    let fileName = filePath.split('/').pop()
     if(allowedExtname.includes(extname)){
-      return ebookConverter.convert({
+      let oldAbsolutPath = absolutePath
+       ebookConverter.convert({
         input: absolutePath,
-        output: `${Env.get('STATIC_PATH')}/${filePath.split('.')[0]}.epub`,
+        output: `${Env.get('STATIC_PATH')}/${fileName.split('.')[0]}.epub`,
       }).then((result)=>{
         absolutePath = result.output
         relativePath = absolutePath.replace(`${Env.get('STATIC_PATH')}/`, '')
@@ -30,7 +31,9 @@ class BookService{
         return BookService.createFavouriteBook(book.id, user_id)
       }).then(()=>{
         return BookService.uploadToS3(absolutePath, 'books', `${filePath.split('.')[0]}.epub`)
-      }).catch(e=>e)
+      }).catch(e=>e).finally(()=>{
+        fs.unlinkSync(oldAbsolutPath)
+       })
       return 'Pasing ebook in progress. Check profile in few minutes'
     }
 

@@ -1,17 +1,21 @@
 'use strict'
 
+const { copyFileSync } = require('fs')
 const BookService = use('App/Services/BookService')
 const File = use('App/Classes/File')
 const HttpException = use('App/Exceptions/HttpException')
+const Env = use('Env')
 
 const allowedExtname = ['epub', 'fb2', 'pdf']
 
 class BookController {
   async saveFavouriteBook({ request, response, auth }) {
     if(request.file('book') && allowedExtname.includes(request.file('book').extname)){
-      const filePath = await File.saveRequestFiles(request, ['book'])
       const extname = request.file('book').extname
-      const result = await BookService.saveBook(filePath.book, extname, auth.user.id)
+      const filePath = `${Env.get('STATIC_PATH')}/${request.file('book').clientName}`
+      copyFileSync(request.file('book').tmpPath, filePath)
+      // const filePath = await File.saveRequestFiles(request, ['book'])
+      const result = await BookService.saveBook(filePath, extname, auth.user.id)
       return response.res(result)
     } else {
       throw new HttpException(400, 'File is not supported')
