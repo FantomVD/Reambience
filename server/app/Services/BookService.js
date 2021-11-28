@@ -30,7 +30,7 @@ class BookService{
         return BookService.createFavouriteBook(book.id, user_id)
       }).then(()=>{
         return BookService.uploadToS3(absolutePath, 'books', `${filePath.split('.')[0]}.epub`)
-      })
+      }).catch(e=>e)
       return 'Pasing ebook in progress. Check profile in few minutes'
     }
 
