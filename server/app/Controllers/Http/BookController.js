@@ -5,6 +5,7 @@ const BookService = use('App/Services/BookService')
 const File = use('App/Classes/File')
 const HttpException = use('App/Exceptions/HttpException')
 const Env = use('Env')
+const {} = require('fs')
 
 const allowedExtname = ['epub', 'fb2', 'pdf']
 
@@ -13,7 +14,8 @@ class BookController {
     if(request.file('book') && allowedExtname.includes(request.file('book').extname)){
       const extname = request.file('book').extname
       const filePath = `${Env.get('STATIC_PATH')}/${request.file('book').clientName}`
-      copyFileSync(request.file('book').tmpPath, filePath)
+      await request.file('book').move(filePath)
+      // copyFileSync(request.file('book').tmpPath, filePath)
       // const filePath = await File.saveRequestFiles(request, ['book'])
       const result = await BookService.saveBook(filePath, extname, auth.user.id)
       return response.res(result)
