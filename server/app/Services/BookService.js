@@ -1,8 +1,11 @@
 const Env = use('Env')
 const Book = use('App/Models/Book')
 const Database = use('Database')
+const Drive = use('Drive')
+
 const EPUB = require('epub')
 const ebookConverter =  require('node-ebook-converter')
+const fs = require('fs')
 
 const allowedExtname = ['fb2', 'pdf']
 
@@ -20,12 +23,11 @@ class BookService{
       relativePath = absolutePath.replace(`${Env.get('STATIC_PATH')}/`, '')
     }
 
-
-
     const epubObj = await BookService.parseEpub(absolutePath)
     console.log(`Saved to: ${absolutePath}`)
     const book = await Book.createItem({ author: epubObj.metadata.creator, title: epubObj.metadata.title, path: relativePath })
     await BookService.createFavouriteBook(book.id, user_id)
+    await BookService.uploadToS3(absolutePath, 'books', filePath)
     return book
   }
 
@@ -42,7 +44,26 @@ class BookService{
   }
 
   static async createFavouriteBook(book_id, user_id){
-    return Database.query().table('favourite_books').insert({book_id, user_id})
+    await Database.query().table('favourite_books').insert({book_id, user_id})
+
+  }
+
+  static async uploadToS3 (filePath, folder='books', fileName) {
+    // If oldPath parameter is set then, delete the old picture
+    const fileStream = await fs.createReadStream(filePath)
+
+    const s3Path = `${folder}/${fileName}`
+    await Drive.disk('s3').put(s3Path, fileStream, { ACL: 'public-read'})
+    const fileUrl = await Drive.disk('s3').getUrl(s3Path)
+
+    // Destroy the readable stream and delete the file from tmp path
+    await fileStream._destroy()
+
+    return {
+      name: fileName,
+      path: s3Path,
+      url: fileUrl
+    }
   }
 
 
