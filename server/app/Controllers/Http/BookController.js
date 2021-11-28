@@ -11,11 +11,15 @@ const allowedExtname = ['epub', 'fb2', 'pdf']
 
 class BookController {
   async saveFavouriteBook({ request, response, auth }) {
-    if(request.file('book') && allowedExtname.includes(request.file('book').extname)){
-      const extname = request.file('book').extname
-      const filePath = `${Env.get('STATIC_PATH')}/${request.file('book').clientName}`
-      await request.file('book').move(filePath)
-      // copyFileSync(request.file('book').tmpPath, filePath)
+    const book = request.file('book')
+    if(book && allowedExtname.includes(book.extname)){
+      const extname = book.extname
+      const filePath = `${Env.get('STATIC_PATH')}/${book.clientName}`
+      console.log('Before move', book.moved())
+      await book.move(filePath, {overwrite: true})
+      console.log('After move', book.moved())
+
+      // copyFileSync(book.tmpPath, filePath)
       // const filePath = await File.saveRequestFiles(request, ['book'])
       const result = await BookService.saveBook(filePath, extname, auth.user.id)
       return response.res(result)
