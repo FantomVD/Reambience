@@ -18,6 +18,10 @@ class Book extends Model {
     ]
   }
 
+  static get Serializer() {
+    return 'App/Serializers/BookSerializer'
+  }
+
   static get traits(){
     return ['NoTimestamp']
   }

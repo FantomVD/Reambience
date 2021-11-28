@@ -21,6 +21,7 @@ Route.get('/ping', ({ response }) => response.res('pong!'))
 
 Route.get('/api/v1/translate', 'TranslateController.translate').middleware(['valid:Translate'])
 Route.group(()=>{
+  Route.get('/', 'BookController.getAllBooks')
   Route.post('/', 'BookController.saveFavouriteBook').middleware(['auth', 'valid:CreateBook'])
   Route.get('/favourites', 'BookController.getFavouriteBooks').middleware(['auth'])
   Route.post('/quotes', 'QuoteController.createQuote').middleware(['auth', 'valid:CreateQuote'])

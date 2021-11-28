@@ -6,6 +6,8 @@ const Drive = use('Drive')
 const EPUB = require('epub')
 const ebookConverter =  require('node-ebook-converter')
 const fs = require('fs')
+const mkdirp = require('mkdirp')
+const { Readable } = require('stream')
 
 const allowedExtname = ['fb2', 'pdf']
 
@@ -15,12 +17,21 @@ class BookService{
     let absolutePath = `${Env.get('STATIC_PATH')}/${relativePath}`
 
     if(allowedExtname.includes(extname)){
-      const result = await ebookConverter.convert({
+      ebookConverter.convert({
         input: absolutePath,
         output: `${Env.get('STATIC_PATH')}/${filePath.split('.')[0]}.epub`,
+      }).then((result)=>{
+        absolutePath = result.output
+        relativePath = absolutePath.replace(`${Env.get('STATIC_PATH')}/`, '')
+        return BookService.parseEpub(absolutePath)
+      }).then((epubObj)=>{
+        return Book.createItem({ author: epubObj.metadata.creator, title: epubObj.metadata.title, path: relativePath })
+      }).then((book)=>{
+        return BookService.createFavouriteBook(book.id, user_id)
+      }).then(()=>{
+        return BookService.uploadToS3(absolutePath, 'books', `${filePath.split('.')[0]}.epub`)
       })
-      absolutePath = result.output
-      relativePath = absolutePath.replace(`${Env.get('STATIC_PATH')}/`, '')
+      return 'Pasing ebook in progress. Check profile in few minutes'
     }
 
     const epubObj = await BookService.parseEpub(absolutePath)
@@ -31,12 +42,66 @@ class BookService{
     return book
   }
 
+  static async download(filename) {
+    const folder = 'books'
+    const path = Env.get('STATIC_PATH')
+
+    const [exists, s3Object] = await Promise.all([
+      Drive.disk('s3').exists(`${folder}/${filename}`),
+      Drive.disk('s3').getObject(`${folder}/${filename}`),
+    ])
+
+    if (!exists) {
+      return response.status(404).send({
+        error: {
+          message: 'File not found.',
+        },
+      })
+    }
+
+    if (!fs.existsSync(path)) {
+      mkdirp(path)
+    }
+
+    const pathname = `${path}/${filename}`
+
+    const readableInstanceStream = new Readable({
+      read() {
+        this.push(s3Object.Body)
+        this.push(null)
+      },
+    })
+
+    await BookService._saveStreamToFile(readableInstanceStream, pathname)
+
+    return pathname
+  }
+
+  static async getAllBooks(){
+    return Book.all()
+  }
+
+  static async _saveStreamToFile(file, pathname) {
+    return new Promise((resolve, reject) => {
+      const writer = fs.createWriteStream(pathname)
+
+      file.pipe(writer)
+
+      writer.on('finish', resolve)
+      writer.on('error', reject)
+    })
+  }
+
+  static async convertBook(){
+
+  }
   static async deleteBookById(id){
     return Book.query().where({id}).delete()
   }
 
   static async getBookById(id){
-    return Book.query().where({id}).first()
+    const book = await Book.query().where({id}).first()
+    return BookService.download(book.path)
   }
 
   static async getFavouriteBooks(id) {

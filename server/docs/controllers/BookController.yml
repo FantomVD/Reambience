@@ -1,5 +1,10 @@
 paths:
   /api/v1/books:
+    get:
+      tags: [ 'book' ]
+      description: Get books
+      produces: [ application/json ]
+      responses: [ 200 ]
     post:
       tags: [ 'book' ]
       security: [ bearerAuth: [ ] ]
@@ -26,14 +31,17 @@ paths:
   /api/v1/books/{id}:
     get:
       tags: [ 'book' ]
-      description: Get book by id
       parameters:
         - name: id
           description: Book's id
           in: path
           type: integer
-      produces: [ application/json ]
-      responses: [ 200 ]
+      produces: [ application/epub+zip ]
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/epub+zip
     delete:
       tags: [ 'book' ]
       security: [ bearerAuth: [ ] ]

@@ -47,6 +47,7 @@
     "jquery": "^3.6.0",
     "laravel-mix": "^6.0.39",
     "lodash": "^4.17.21",
+    "mkdirp": "^1.0.4",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node-ebook-converter": "^1.0.11",

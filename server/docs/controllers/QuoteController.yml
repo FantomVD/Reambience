@@ -38,7 +38,7 @@ paths:
           description: Book's id
           in: path
           type: integer
-      produces: [ application/json ]
+      produces: [application/epub+zip]
       responses: [ 200 ]
     delete:
       tags: [ 'book' ]

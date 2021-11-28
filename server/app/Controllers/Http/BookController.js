@@ -18,6 +18,11 @@ class BookController {
     }
   }
 
+  async getAllBooks({response}){
+    const books = await BookService.getAllBooks()
+    response.res(books)
+  }
+
   async deleteBookById({ request, response }) {
     const {id} = request.all()
     const result = await BookService.deleteBookById(id)
@@ -27,7 +32,7 @@ class BookController {
   async getBookById({ request, response }) {
     const {id} = request.all()
     const book = await BookService.getBookById(id)
-    response.res(book)
+    response.download(book)
   }
 
   async getFavouriteBooks({ auth, response }) {
