@@ -17,7 +17,7 @@ class BookService{
     let absolutePath = `${Env.get('STATIC_PATH')}/${relativePath}`
 
     if(allowedExtname.includes(extname)){
-      ebookConverter.convert({
+      return ebookConverter.convert({
         input: absolutePath,
         output: `${Env.get('STATIC_PATH')}/${filePath.split('.')[0]}.epub`,
       }).then((result)=>{
