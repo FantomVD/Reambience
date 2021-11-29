@@ -5,7 +5,6 @@ const BookService = use('App/Services/BookService')
 const File = use('App/Classes/File')
 const HttpException = use('App/Exceptions/HttpException')
 const Env = use('Env')
-const {} = require('fs')
 
 const allowedExtname = ['epub', 'fb2', 'pdf']
 

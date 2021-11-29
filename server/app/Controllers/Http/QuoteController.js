@@ -5,8 +5,8 @@ const QuoteService = use('App/Services/QuoteService')
 
 class QuoteController {
   async createQuote({request, response, auth}){
-    const {book_id, quote} = request.all()
-    const quoteObj = await QuoteService.saveQuote({book_id, user_id: auth.user.id, quote})
+    const { quote} = request.all()
+    const quoteObj = await QuoteService.saveQuote({ user_id: auth.user.id, quote})
     response.res(quoteObj)
   }
 
