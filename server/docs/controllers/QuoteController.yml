@@ -27,7 +27,7 @@ paths:
       responses: [ 200 ]
   /api/v1/books/{id}:
     get:
-      tags: [ 'quote' ]
+      tags: [ 'book' ]
       description: Get book by id
       parameters:
         - name: id
@@ -37,7 +37,7 @@ paths:
       produces: [application/epub+zip]
       responses: [ 200 ]
     delete:
-      tags: [ 'quote' ]
+      tags: [ 'book' ]
       security: [ bearerAuth: [ ] ]
       description: Delete book
       parameters:
